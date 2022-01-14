@@ -132,5 +132,4 @@ MonoBehaviour:
   - {fileID: 334269765980695370}
   destroy_effect_: {fileID: 4872672344835933695, guid: cbe1a5f2bb58ae5469565f825ec3086d, type: 3}
   attack_delay_: 0.1
-  super_attack_ammo_cost_: 5
   max_ammo_: 100

@@ -14,11 +14,6 @@ public class Player : MonoBehaviour {
 	const float kJumpVelocity = 15f;
 	const float kDoubleJumpVelocity = 10f;
 
-	const float kDashTime = 0.25f;
-	const float kDashForce = 20f;
-	const float kDashResetTime = 1.5f;
-	const int kMaxDashes = 3;
-
 	const float kWeaponHeight = 0.35f;
 
 	[SerializeField] LayerMask collision_mask_;
@@ -27,7 +22,6 @@ public class Player : MonoBehaviour {
 	bool was_init_ = false;
 
 	[SerializeField] Config config_;
-
 	[SerializeField] Team team_;
 
 	BoxCollider2D collider_;
@@ -44,10 +38,6 @@ public class Player : MonoBehaviour {
 
 	Weapon current_weapon_;
 	Weapon other_weapon_;
-
-	Timer dash_timer_;
-	Timer dash_reset_timer_;
-	int dash_count_ = kMaxDashes;
 
 	class CollisionSystem {
 		const float kSkinWidth = .015f;
@@ -180,9 +170,6 @@ public class Player : MonoBehaviour {
 		collision_system_ = new CollisionSystem(collider_, collision_mask_);
 		player_stats_ = new PlayerStats();
 
-		dash_timer_ = new Timer(kDashTime, true);
-		dash_reset_timer_ = new Timer(kDashResetTime);
-
 		StartCoroutine("spawn");
 	}
 
@@ -207,8 +194,6 @@ public class Player : MonoBehaviour {
 			if(current_weapon_) {
 				current_weapon_.attack(team_);
 			}
-		} else if(Input.GetKey(config_.superAttackKey())) {
-			current_weapon_.superAttack(team_);
 		} else if(Input.GetKeyDown(config_.swapKey())) {
 			Weapon temp = current_weapon_;
 			current_weapon_ = other_weapon_;
@@ -217,16 +202,6 @@ public class Player : MonoBehaviour {
 				other_weapon_.toggleActive(false);
 			if(current_weapon_)
 				current_weapon_.toggleActive(true);
-		}
-
-		if(Input.GetKeyDown(config_.dashKey()) && dash_count_ > 0) {
-			dash_timer_.reset();
-			--dash_count_;
-			if(!sprite_renderer_.flipX) {
-				velocity_.x = kDashForce;
-			} else if(sprite_renderer_.flipX) {
-				velocity_.x = -kDashForce;
-			}
 		}
 
 		if(current_weapon_) {
@@ -249,28 +224,11 @@ public class Player : MonoBehaviour {
 		
 		move_direction_ = new Vector2(Input.GetAxisRaw(config_.getHorizontalAxis()), Input.GetAxisRaw(config_.getVerticalAxis()));
 
-		dash_timer_.update(Time.deltaTime);
-		if(dash_timer_.active()) {
-			if(jump_active_) {
-				dash_timer_.deactivate();
-			} else {
-				velocity_.y = 0.0f;
-			}
-		}
-
 		float acceleration_time = collision_system_.below ? kAccelerationTimeGrounded : kAccelerationTimeAirborne;
 		velocity_.x = Mathf.SmoothDamp(velocity_.x, move_direction_.x * kMoveSpeed, ref velocity_x_smoothing_, acceleration_time);
 
 		float gravity = jump_active_ ? -kJumpGravity : -kGravity;
 		velocity_.y += gravity * Time.deltaTime;
-
-		if(dash_count_ < kMaxDashes) {
-			dash_reset_timer_.update(Time.deltaTime);
-			if(!dash_reset_timer_.active()) {
-				++dash_count_;
-				dash_reset_timer_.reset();
-			}
-		}
 
 		transform.Translate(collision_system_.move(velocity_ * Time.deltaTime));
 
@@ -332,14 +290,18 @@ public class Player : MonoBehaviour {
 		player_stats_.takeDamage(damage);
 
 		if(player_stats_.died()) {
-			Destroy(Instantiate(death_effect_, transform.position, Quaternion.identity), 0.5f);
-			if(current_weapon_)
-				Destroy(current_weapon_.gameObject);
-			if(other_weapon_)
-				Destroy(other_weapon_.gameObject);
-			Destroy(gameObject);
+			destroy();
 		}
 		velocity_ += ((Vector2)collider_.bounds.center - point) * push_force; // TODO: Тут надо направление (как раньше), а не точку
+	}
+
+	public void destroy() {
+		Destroy(Instantiate(death_effect_, transform.position, Quaternion.identity), 0.5f);
+		if(current_weapon_)
+			Destroy(current_weapon_.gameObject);
+		if(other_weapon_)
+			Destroy(other_weapon_.gameObject);
+		Destroy(gameObject);
 	}
 
 	public bool pickHealthPickup(float health) {
@@ -348,6 +310,10 @@ public class Player : MonoBehaviour {
 
 	public bool pickArmorPickup(float armor) {
 		return player_stats_.takeArmor(armor);
+	}
+
+	public Vector2 get_rounded_position() {
+		return new Vector2((int)transform.position.x, (int)transform.position.y); 
 	}
 
 	IEnumerator spawn() {

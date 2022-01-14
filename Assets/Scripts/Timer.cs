@@ -9,7 +9,6 @@ public class Timer {
 
     public void reset() { current_time_ = 0.0f; }
     public bool active() { return current_time_ < expiration_time_; }
-    public void deactivate(float multiplier=1) { current_time_ = expiration_time_*multiplier; }
 
     public float current_time() { return current_time_; }
 

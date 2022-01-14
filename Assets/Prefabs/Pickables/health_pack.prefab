@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn_effect_: {fileID: 4872672344835933695, guid: cbe1a5f2bb58ae5469565f825ec3086d, type: 3}
+  destroy_effect_: {fileID: 4872672344835933695, guid: cbe1a5f2bb58ae5469565f825ec3086d, type: 3}
   type_: 0
   powerup_amount_: 25
 --- !u!95 &4149121902098704441

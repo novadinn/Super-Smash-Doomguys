@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn_effect_: {fileID: 4872672344835933695, guid: cbe1a5f2bb58ae5469565f825ec3086d, type: 3}
+  destroy_effect_: {fileID: 4872672344835933695, guid: cbe1a5f2bb58ae5469565f825ec3086d, type: 3}
   weapon_: {fileID: -5037588343797081836, guid: f5d37936062fb1c4bb783709ce066fb4, type: 3}
 --- !u!1 &2120571506446837524
 GameObject:

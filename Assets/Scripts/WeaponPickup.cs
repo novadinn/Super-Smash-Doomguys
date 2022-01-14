@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class WeaponPickup : Pickup {
 
-    const float kFlightAmount = 0.25f;
-
     [SerializeField] Weapon weapon_;
 
     Vector3 start_position_;

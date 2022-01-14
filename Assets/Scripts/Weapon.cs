@@ -1,14 +1,18 @@
 using UnityEngine;
+using System;
 
 public class Weapon : MonoBehaviour {
 
     const float kDestroyTime = 1;
 
+    const float kNailgunSuperAttackSpeed = 0.5f;
+
     public enum WeaponType {
         NAILGUN,
         ROCKET_LAUNCHER,
         RAILGUN,
-        SHOTGUN
+        SHOTGUN,
+        GRANADE_LAUNCHER
     }
     public WeaponType weapon_type;
 
@@ -24,7 +28,6 @@ public class Weapon : MonoBehaviour {
     Timer destroy_timer_ = null;
 
     [SerializeField] int max_ammo_;
-    [SerializeField] int super_attack_ammo_cost_;
     int ammo_;
     float look_angle_;
 
@@ -66,41 +69,6 @@ public class Weapon : MonoBehaviour {
                 delay_between_attacks_timer_.reset();
             }
             ammo_ -= 1;
-        }
-    }
-
-    public void superAttack(Team team) {
-        switch(weapon_type) {
-            case WeaponType.NAILGUN:
-            if(!delay_between_attacks_timer_.active() && ammo_ > 0) {
-                foreach(Transform muzzle_transform in muzzle_transforms_) {
-                    Instantiate(projectile_prefab_, muzzle_transform.position, muzzle_transform.rotation).init(CommonIncludes.get_layer_from_team(team));
-                    delay_between_attacks_timer_.deactivate(0.5f);
-                }
-                ammo_ -= super_attack_ammo_cost_-1;
-            }
-            break;
-            case WeaponType.ROCKET_LAUNCHER:
-            if(!delay_between_attacks_timer_.active() && ammo_ > 0) {
-                foreach(Transform muzzle_transform in muzzle_transforms_) {
-                    Instantiate(projectile_prefab_, muzzle_transform.position, muzzle_transform.rotation).init(CommonIncludes.all_masks).explode();
-                    delay_between_attacks_timer_.reset();
-                }
-                ammo_ -= super_attack_ammo_cost_;
-            }
-            break;
-            case WeaponType.RAILGUN:
-            if(!delay_between_attacks_timer_.active() && ammo_ > 0) {
-                foreach(Transform muzzle_transform in muzzle_transforms_) {
-                    Instantiate(projectile_prefab_, muzzle_transform.position, muzzle_transform.rotation).
-                        init(team == Team.TEAM_A ? CommonIncludes.team_b_mask : CommonIncludes.team_a_mask);
-                    delay_between_attacks_timer_.reset();
-                }
-                ammo_ -= super_attack_ammo_cost_;
-            }
-            break;
-            case WeaponType.SHOTGUN:
-            break;
         }
     }
 

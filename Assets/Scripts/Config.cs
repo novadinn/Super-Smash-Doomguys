@@ -13,16 +13,8 @@ public class Config {
         return control_type == ControlType.KEYBOARD ? KeyCode.Space : KeyCode.Joystick1Button4;
     }
 
-    public KeyCode dashKey() {
-        return control_type == ControlType.KEYBOARD ? KeyCode.LeftShift : KeyCode.Joystick1Button1;
-    }
-
     public KeyCode attackKey() {
         return control_type == ControlType.KEYBOARD ? KeyCode.Mouse0 : KeyCode.Joystick1Button6;
-    }
-
-    public KeyCode superAttackKey() {
-        return control_type == ControlType.KEYBOARD ? KeyCode.Mouse1 : KeyCode.Joystick1Button5;
     }
 
     public KeyCode swapKey() {

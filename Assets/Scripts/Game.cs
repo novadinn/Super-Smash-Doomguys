@@ -1,9 +1,15 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Game : MonoBehaviour {
+
+    const float kSpawnTime = 3f;
+    const float kDeathBorder = -20f;
+
     [SerializeField] Player[] players_;
+    List<Player> active_players_ = new List<Player>();
 
     [System.Serializable]
     class TilemapSpawner {
@@ -50,10 +56,10 @@ public class Game : MonoBehaviour {
     }
     [SerializeField] TilemapSpawner[] spawners_;
 
+    List<Vector2> all_tiles_positions_ = new  List<Vector2>();
+
     void Awake() {
         Tilemap tilemap = FindObjectOfType<Tilemap>();
-
-        List<Vector2> all_tiles_positions = new List<Vector2>();
  
         for (int x = tilemap.cellBounds.xMin; x < tilemap.cellBounds.xMax; ++x) {
             for (int y = tilemap.cellBounds.yMin; y < tilemap.cellBounds.yMax; y++) {
@@ -61,20 +67,20 @@ public class Game : MonoBehaviour {
                 Vector3 tile_world_position = tilemap.CellToWorld(tile_local_position);
                 if (tilemap.HasTile(tile_local_position)) {
                     if(!tilemap.HasTile(tile_local_position + new Vector3Int(0, 1, 0)) && !tilemap.HasTile(tile_local_position + new Vector3Int(0, 2, 0))) {
-                        all_tiles_positions.Add(new Vector3(tile_world_position.x + 0.5f, tile_world_position.y + 1.0f));
+                        all_tiles_positions_.Add(new Vector3(tile_world_position.x + 0.5f, tile_world_position.y + 1.0f));
                     }
                 }
             }
         }
 
         foreach(TilemapSpawner spawner in spawners_) {
-            spawner.init(all_tiles_positions);
+            spawner.init(all_tiles_positions_);
         }
 
-        List<Vector2> used_tiles = new List<Vector2>(all_tiles_positions);
+        List<Vector2> used_tiles = new List<Vector2>(all_tiles_positions_);
         for(int i = 0; i < players_.Length; ++i) {
             int index = UnityEngine.Random.Range(0, used_tiles.Count);
-            players_[i] = Instantiate(players_[i], used_tiles[index] + new Vector2(0,1), Quaternion.identity);
+            active_players_.Add(Instantiate(players_[i], used_tiles[index] + new Vector2(0,1), Quaternion.identity));
             used_tiles.RemoveAt(index);
         }
     }
@@ -83,6 +89,29 @@ public class Game : MonoBehaviour {
         foreach(TilemapSpawner spawner in spawners_) {
             spawner.update(Time.deltaTime);
         }
+
+        for(int i = 0; i < active_players_.Count; ++i) {
+            if(!active_players_[i]) {
+                active_players_.RemoveAt(i);
+                StartCoroutine(spawnNewPlayer(players_[i]));
+            }
+            if(active_players_[i].get_rounded_position().y < kDeathBorder) {
+                active_players_[i].destroy();
+                active_players_.RemoveAt(i);
+                StartCoroutine(spawnNewPlayer(players_[i]));
+            }
+        }
+    }
+
+    IEnumerator spawnNewPlayer(Player player) {
+        yield return new WaitForSeconds(kSpawnTime);
+        List<Vector2> positions = new List<Vector2>(all_tiles_positions_);
+        foreach(Player living_player in active_players_) {
+            if(positions.Contains(living_player.get_rounded_position())) {
+                positions.Remove(living_player.get_rounded_position());
+            }
+        }
+        active_players_.Add(Instantiate(player, positions[UnityEngine.Random.Range(0, positions.Count)] + new Vector2(0,1), Quaternion.identity));
     }
 }
 

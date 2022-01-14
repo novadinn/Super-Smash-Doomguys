@@ -3,14 +3,18 @@ using UnityEngine;
 
 public abstract class Pickup : MonoBehaviour {
     
+    const float kDestroyTime = 20f;
+
     protected const float kBoxSize = 1;
 
     [SerializeField] GameObject spawn_effect_;
+    [SerializeField] GameObject destroy_effect_;
 
     bool was_init_ = false;
 
     void Awake() {
         StartCoroutine("spawn");
+        StartCoroutine("destroy");
     }
 
     protected virtual void Update() {
@@ -21,6 +25,12 @@ public abstract class Pickup : MonoBehaviour {
         if(hit) {
             reactToCollision(hit);
         }
+    }
+
+    IEnumerator destroy() {
+        yield return new WaitForSeconds(kDestroyTime);
+        Destroy(Instantiate(destroy_effect_, transform.position, Quaternion.identity), 0.5f);
+        Destroy(gameObject);
     }
 
     protected abstract void reactToCollision(RaycastHit2D hit);
