@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
 	bool jump_active_;
 	bool double_jump_active_;
 
+	[SerializeField] Weapon start_weapon_;
 	Weapon current_weapon_;
 	Weapon other_weapon_;
 
@@ -257,14 +258,12 @@ public class Player : MonoBehaviour {
 		}
 		if(other_weapon_) {
 			if(weapon.weapon_type == other_weapon_.weapon_type) {
-				other_weapon_.addAmmo();
-				return -1;
+				return other_weapon_.addAmmo() ? -1 : 0;
 			}
 		}
 		if(current_weapon_) {
 			if(weapon.weapon_type == current_weapon_.weapon_type) {
-				current_weapon_.addAmmo();
-				return -1;
+				return current_weapon_.addAmmo() ? -1 : 0;
 			}
 		}
 
@@ -286,22 +285,13 @@ public class Player : MonoBehaviour {
 			current_weapon_.toggleActive(true);
 	}
 
-	public void takeDamage(float damage, Vector2 point, Vector2 direction, float push_force) {
+	public void takeDamage(float damage, Vector2 direction, float push_force) {
 		player_stats_.takeDamage(damage);
 
 		if(player_stats_.died()) {
 			destroy();
 		}
-		velocity_ += ((Vector2)collider_.bounds.center - point) * push_force; // TODO: Тут надо направление (как раньше), а не точку
-	}
-
-	public void destroy() {
-		Destroy(Instantiate(death_effect_, transform.position, Quaternion.identity), 0.5f);
-		if(current_weapon_)
-			Destroy(current_weapon_.gameObject);
-		if(other_weapon_)
-			Destroy(other_weapon_.gameObject);
-		Destroy(gameObject);
+		velocity_ += direction * push_force;
 	}
 
 	public bool pickHealthPickup(float health) {
@@ -323,5 +313,16 @@ public class Player : MonoBehaviour {
         Destroy(effect);
         sprite_renderer_.enabled = true;
 		was_init_ = true;
+		start_weapon_ = Instantiate(start_weapon_, transform.position, Quaternion.identity);
+		pickWeapon(start_weapon_);
     }
+
+	public void destroy() {
+		Destroy(Instantiate(death_effect_, transform.position, Quaternion.identity), 0.5f);
+		if(current_weapon_)
+			Destroy(current_weapon_.gameObject);
+		if(other_weapon_)
+			Destroy(other_weapon_.gameObject);
+		Destroy(gameObject);
+	}
 }

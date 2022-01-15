@@ -9,7 +9,16 @@ public class Game : MonoBehaviour {
     const float kDeathBorder = -20f;
 
     [SerializeField] Player[] players_;
-    List<Player> active_players_ = new List<Player>();
+    class ActivePlayer {
+        public Player player;
+        public bool spawning;
+
+        public ActivePlayer(Player player) {
+            this.player = player;
+            spawning = false;
+        }
+    }
+    List<ActivePlayer> active_players_ = new List<ActivePlayer>();
 
     [System.Serializable]
     class TilemapSpawner {
@@ -30,7 +39,8 @@ public class Game : MonoBehaviour {
 
         public void update(float elapsed_time) {
             pickup_spawn_percent_ += elapsed_time * timer_speed_;
-            pickup_check_timer_.update(Time.deltaTime);
+            if(pickup_check_timer_ != null)
+                pickup_check_timer_.update(Time.deltaTime);
 
             if(!pickup_check_timer_.active()) {
                 pickup_check_timer_.reset();
@@ -80,7 +90,7 @@ public class Game : MonoBehaviour {
         List<Vector2> used_tiles = new List<Vector2>(all_tiles_positions_);
         for(int i = 0; i < players_.Length; ++i) {
             int index = UnityEngine.Random.Range(0, used_tiles.Count);
-            active_players_.Add(Instantiate(players_[i], used_tiles[index] + new Vector2(0,1), Quaternion.identity));
+            active_players_.Add(new ActivePlayer(Instantiate(players_[i], used_tiles[index] + new Vector2(0,1), Quaternion.identity)));
             used_tiles.RemoveAt(index);
         }
     }
@@ -91,27 +101,34 @@ public class Game : MonoBehaviour {
         }
 
         for(int i = 0; i < active_players_.Count; ++i) {
-            if(!active_players_[i]) {
-                active_players_.RemoveAt(i);
-                StartCoroutine(spawnNewPlayer(players_[i]));
+            if(!active_players_[i].spawning) {
+                if(!active_players_[i].player) {
+                    StartCoroutine(spawnNewPlayer(i));
+                } else if(active_players_[i].player.get_rounded_position().y < kDeathBorder) {
+                    active_players_[i].player.destroy();
+                    StartCoroutine(spawnNewPlayer(i));
+                }
             }
-            if(active_players_[i].get_rounded_position().y < kDeathBorder) {
-                active_players_[i].destroy();
-                active_players_.RemoveAt(i);
-                StartCoroutine(spawnNewPlayer(players_[i]));
-            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
         }
     }
 
-    IEnumerator spawnNewPlayer(Player player) {
+    IEnumerator spawnNewPlayer(int index) {
+        active_players_[index].spawning = true;
         yield return new WaitForSeconds(kSpawnTime);
         List<Vector2> positions = new List<Vector2>(all_tiles_positions_);
-        foreach(Player living_player in active_players_) {
-            if(positions.Contains(living_player.get_rounded_position())) {
-                positions.Remove(living_player.get_rounded_position());
+        foreach(ActivePlayer active_player in active_players_) {
+            if(active_player.player) {
+                if(positions.Contains(active_player.player.get_rounded_position())) {
+                    positions.Remove(active_player.player.get_rounded_position());
+                }
             }
         }
-        active_players_.Add(Instantiate(player, positions[UnityEngine.Random.Range(0, positions.Count)] + new Vector2(0,1), Quaternion.identity));
+        active_players_[index] = new ActivePlayer(Instantiate(players_[index], positions[UnityEngine.Random.Range(0, positions.Count)] + new Vector2(0,1), Quaternion.identity));
+        active_players_[index].spawning = false;
     }
 }
 

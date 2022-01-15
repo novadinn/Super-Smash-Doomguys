@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour {
         return this;
     }
     
-    void Update() {
+    void Update() { // TODO: fix that mess
         float move_distance = move_speed_ * Time.deltaTime;
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, move_distance, collision_layer_);
@@ -39,15 +39,23 @@ public class Projectile : MonoBehaviour {
                 case CollisionEffect.DEFAULT:
                 Player player = hit.collider.GetComponent<Player>();
                 if(player) {
-                    player.takeDamage(damage_, hit.point, transform.right, push_force_);
+                    player.takeDamage(damage_, transform.right, push_force_);
                 }
                 break;
                 case CollisionEffect.EXPLODE:
-                RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, kExplodeRadius, Vector2.zero, 1, CommonIncludes.players_masks);
+                RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, kExplodeRadius, Vector2.zero, 1, collision_layer_);
                 foreach(RaycastHit2D hit2D in hits) {
                     Player collided_player = hit2D.collider.GetComponent<Player>();
                     if(collided_player) {
-                        collided_player.takeDamage(damage_, hit2D.point, transform.right, push_force_);
+                        collided_player.takeDamage(damage_*(1/Vector2.Distance(collided_player.transform.position, hit.point)), transform.right, push_force_);
+                    }
+                }
+                LayerMask layer = collision_layer_ == CommonIncludes.team_a_collision_masks ? CommonIncludes.team_a_mask : CommonIncludes.team_b_mask;
+                RaycastHit2D owner_hit = Physics2D.CircleCast(transform.position, kExplodeRadius, Vector2.zero, 1, layer);
+                if(owner_hit) {
+                    Player owner = owner_hit.collider.GetComponent<Player>();
+                    if(owner) {
+                        owner.takeDamage(damage_*(1/Vector2.Distance(owner.transform.position, hit.point)), -transform.right, push_force_);
                     }
                 }
                 break;

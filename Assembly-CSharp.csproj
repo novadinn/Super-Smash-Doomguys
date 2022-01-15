@@ -42,7 +42,6 @@
      <Compile Include="Assets\Scripts\WeaponPickup.cs" />
      <Compile Include="Assets\Scripts\Pickup.cs" />
      <Compile Include="Assets\Scripts\Timer.cs" />
-     <Compile Include="Assets\Scripts\SliderBar.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />

@@ -132,7 +132,7 @@ MonoBehaviour:
   config_:
     control_type: 1
   team_: 1
-  ground_fall_effect_: {fileID: 685362188244475585, guid: f9e66dcd60c7ecc4d852ccf19293abf4, type: 3}
+  start_weapon_: {fileID: 5749603180122084259, guid: aabde2ddd12525d4c8441fb1db332982, type: 3}
 --- !u!95 &455120992640751269
 Animator:
   serializedVersion: 3

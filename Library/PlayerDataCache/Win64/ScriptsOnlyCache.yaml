@@ -1,26 +1,16 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - BasicWeapon
-    - Bullet
-    - Controller2D
-    - GameManager
-    - HealthBar
-    - HealthPack
-    - Megahealth
-    - PickableWeapon
+    - Game
     - Player
-    - Rocket
-    - Shaft
-    - Shotgun
-    - Spawner
-    - Thunder
-    - WeaponController
+    - PowerupPickup
+    - Projectile
+    - Weapon
+    - WeaponPickup
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
     - UnityEditor.U2D.IK.IKEditorManager
-    - UnityEditor.U2D.IK.IKGizmos
     Unity.2D.IK.Runtime.dll:
     - UnityEditor.U2D.IK.IKEditorManagerHelper
     Unity.2D.Tilemap.Editor.dll:
@@ -33,23 +23,10 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.TilemapPrefabStageHelper
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    UnityEditor.Graphs.dll:
-    - UnityEditor.Graphs.AnimationBlendTree.Graph
-    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
-    - UnityEditor.Graphs.AnimationStateMachine.Graph
-    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
-    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
-    UnityEngine.UI.dll:
-    - UnityEngine.UI.CanvasScaler
-    - UnityEngine.UI.GraphicRaycaster
-    - UnityEngine.UI.Image
-    - UnityEngine.UI.Slider
   sceneClasses:
     Assets/Scenes/SampleScene.unity:
     - Class: 1
@@ -79,43 +56,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 622}
     - Class: 114
-      Script: {instanceID: 1508}
+      Script: {instanceID: 3286}
     - Class: 114
-      Script: {instanceID: 1700}
+      Script: {instanceID: 3980}
     - Class: 114
-      Script: {instanceID: 1702}
+      Script: {instanceID: 4798}
     - Class: 114
-      Script: {instanceID: 1704}
+      Script: {instanceID: 4818}
     - Class: 114
-      Script: {instanceID: 2594}
+      Script: {instanceID: 5492}
     - Class: 114
-      Script: {instanceID: 2616}
-    - Class: 114
-      Script: {instanceID: 2992}
-    - Class: 114
-      Script: {instanceID: 3248}
-    - Class: 114
-      Script: {instanceID: 3488}
-    - Class: 114
-      Script: {instanceID: 3804}
-    - Class: 114
-      Script: {instanceID: 4052}
-    - Class: 114
-      Script: {instanceID: 4062}
-    - Class: 114
-      Script: {instanceID: 4402}
-    - Class: 114
-      Script: {instanceID: 4428}
-    - Class: 114
-      Script: {instanceID: 4452}
-    - Class: 114
-      Script: {instanceID: 5206}
-    - Class: 114
-      Script: {instanceID: 5344}
-    - Class: 114
-      Script: {instanceID: 5572}
-    - Class: 114
-      Script: {instanceID: 29216}
+      Script: {instanceID: 5552}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -125,12 +76,6 @@ ScriptsOnlyBuild:
     - Class: 212
       Script: {instanceID: 0}
     - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
       Script: {instanceID: 0}
     - Class: 19719996
       Script: {instanceID: 0}
@@ -203,22 +148,10 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
-      Hash: d0019c7fe07f7a259e944e4e664ec161
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Thunder
-  - hash:
-      serializedVersion: 2
       Hash: 21a9c6dbf300fc1f6dc15ca7e2c39a37
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Slider
-  - hash:
-      serializedVersion: 2
-      Hash: 5191a69ba86ad4ec261fd65797cff05a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Spawner
   - hash:
       serializedVersion: 2
       Hash: 3164bc883ff663a5cdb32d1ef7e7c0c5
@@ -269,12 +202,6 @@ ScriptsOnlyBuild:
     className: CinemachinePixelPerfect
   - hash:
       serializedVersion: 2
-      Hash: c8e0c9ae5ff0ebe7c2890c3d276cf2d4
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: RaycastController
-  - hash:
-      serializedVersion: 2
       Hash: c1d728126ff1918728036c59106d32b2
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -291,12 +218,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools
     className: EnumerableTestState
-  - hash:
-      serializedVersion: 2
-      Hash: c8e0c9ae5ff0ebe7c2890c3d276cf2d4
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Controller2D
   - hash:
       serializedVersion: 2
       Hash: a1aa98c78061c6f03a8c124cda576e67
@@ -395,12 +316,6 @@ ScriptsOnlyBuild:
     className: Scrollbar
   - hash:
       serializedVersion: 2
-      Hash: 19be1534920014e52be8a556a97d327c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Rocket
-  - hash:
-      serializedVersion: 2
       Hash: 5dea360fb0b147724ac344e6f399c2f3
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -411,6 +326,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
+  - hash:
+      serializedVersion: 2
+      Hash: d20beaca87ce46e27acd7132151be279
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PowerupPickup
   - hash:
       serializedVersion: 2
       Hash: 8e6ceabfd38a184413d69b7db56c89cc
@@ -441,12 +362,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextContainer
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Megahealth
   - hash:
       serializedVersion: 2
       Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
@@ -485,12 +400,6 @@ ScriptsOnlyBuild:
     className: BaseInput
   - hash:
       serializedVersion: 2
-      Hash: 0c845bf312260dad070e44cea1cd39a7
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: BasicWeapon
-  - hash:
-      serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -521,22 +430,16 @@ ScriptsOnlyBuild:
     className: PositionAsUV1
   - hash:
       serializedVersion: 2
+      Hash: 278ba3f22388ab3c62d19cd020a2f5ef
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: WeaponPickup
+  - hash:
+      serializedVersion: 2
       Hash: 87ff43d2baf3385cba327d8f803a4ebb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: AudioPlayableAsset
-  - hash:
-      serializedVersion: 2
-      Hash: 1864254168519afce0e255a26ca10443
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Shaft
-  - hash:
-      serializedVersion: 2
-      Hash: 0f6c057ef4137eaaaeae674c765bfb05
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Shotgun
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -591,24 +494,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.SpriteShape.Runtime.dll
     namespaceName: 
     className: SpriteShapeGeometryCache
-  - hash:
-      serializedVersion: 2
-      Hash: 502072ccd67dd5aad3553b82c15aa3ca
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: WeaponController
-  - hash:
-      serializedVersion: 2
-      Hash: c77236c313d677b9f7276464a0c693bc
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: GameManager
-  - hash:
-      serializedVersion: 2
-      Hash: a797927781440fbba34849279afc4a93
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PickableWeapon
   - hash:
       serializedVersion: 2
       Hash: b424b4eeb810aecb0ff91c62639241e9
@@ -671,16 +556,22 @@ ScriptsOnlyBuild:
     className: SpriteSkinEntity
   - hash:
       serializedVersion: 2
+      Hash: 8b94d7b961a97b74af297ed89718819c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Game
+  - hash:
+      serializedVersion: 2
+      Hash: 0ebd4a20d8065ca2b19ffb294fc9afc6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Projectile
+  - hash:
+      serializedVersion: 2
       Hash: 28cfb4bd305dd11c6326cc3ee7c14138
     assemblyName: Unity.2D.Animation.Runtime.dll
     namespaceName: UnityEngine.Experimental.U2D.Animation
     className: SpriteLibraryAsset
-  - hash:
-      serializedVersion: 2
-      Hash: 153219267aa332fd03b2a1aa59255549
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LivingEntity
   - hash:
       serializedVersion: 2
       Hash: 63bdc2cf3273aa9bf650350f19d2af61
@@ -707,22 +598,10 @@ ScriptsOnlyBuild:
     className: TMP_ScrollbarEventHandler
   - hash:
       serializedVersion: 2
-      Hash: 86e01483bed44e84306ddc20f912ab70
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: HealthPack
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.2D.Animation.Runtime.dll
     namespaceName: UnityEngine.U2D.Animation
     className: BufferManager
-  - hash:
-      serializedVersion: 2
-      Hash: dcbf8494931d75069d2fbfc911590ed6
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Bullet
   - hash:
       serializedVersion: 2
       Hash: 8220b46879dc5e37db1b940c938f5744
@@ -737,6 +616,12 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: 156dcce7e65052d90e0ac267d1a96185
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Weapon
+  - hash:
+      serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -749,7 +634,7 @@ ScriptsOnlyBuild:
     className: TouchInputModule
   - hash:
       serializedVersion: 2
-      Hash: 278799ac68458f241fbfd13f70e08cb5
+      Hash: ec09aa089d7293356bdcd92a26c549b7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Player
@@ -759,14 +644,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.IK.Runtime.dll
     namespaceName: UnityEngine.U2D.IK
     className: FabrikSolver2D
-  - hash:
-      serializedVersion: 2
-      Hash: 1028c39545bcfa841aaab54121e69a47
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: HealthBar
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: "C:/Users/dmyld/OneDrive/\u0420\u0430\u0431\u043E\u0447\u0438\u0439
-    \u0441\u0442\u043E\u043B/Super Smash Doomguys/Super Smash Doomguys.exe"
+  playerPath: D:/Unity/Projects/Own/Super Smash Doomguys/Build/Super Smash Doomguys.exe

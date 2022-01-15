@@ -14,7 +14,7 @@ public class Config {
     }
 
     public KeyCode attackKey() {
-        return control_type == ControlType.KEYBOARD ? KeyCode.Mouse0 : KeyCode.Joystick1Button6;
+        return control_type == ControlType.KEYBOARD ? KeyCode.Mouse0 : KeyCode.Joystick1Button5;
     }
 
     public KeyCode swapKey() {

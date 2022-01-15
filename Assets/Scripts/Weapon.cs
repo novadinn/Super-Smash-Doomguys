@@ -36,7 +36,7 @@ public class Weapon : MonoBehaviour {
         delay_between_attacks_timer_ = new Timer(attack_delay_, true);
         destroy_timer_ = new Timer(kDestroyTime);
 
-        ammo_ = max_ammo_/2;
+        ammo_ = max_ammo_;
     }
 
     void Update() {
@@ -72,8 +72,10 @@ public class Weapon : MonoBehaviour {
         }
     }
 
-    public void addAmmo() {
+    public bool addAmmo() {
+        float ammo = ammo_;
         ammo_ = Mathf.Min(ammo_ + max_ammo_/3, max_ammo_);
+        return ammo != max_ammo_;
     }
 
     public void startDestroy() {
